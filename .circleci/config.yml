@@ -2,31 +2,21 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
+  build-and-test-and-deploy:
     executor:
       name: node/default
+    docker:
+      - image: circleci/node:10.0-browsers # < an arbitrarily chosen docker image.
     steps:
       - checkout
       - node/with-cache:
           steps:
             - run: npm install
             - run: npm test
+            - run:
+                name: Trigger docker remotely
+                command: $DOCKER_HUB_TRIGGER # < EnvVar set in CircleCI
 workflows:
-    build-and-test:
+    build-and-test-and-deploy:
       jobs:
-        - build-and-test
-
-# The deployment section should be excluded until
-# it is explicitly included in module 5
-
-#deployment:
-#  dockerhub:
-#    branch: master
-#    commands:
-#      - $DOCKER_HUB_TRIGGER
-
-# This does not seem to work with newer CircleCI
-
-#test:
-#  override:    
-#    - mocha
+        - build-and-test-and-deploy
