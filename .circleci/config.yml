@@ -25,6 +25,8 @@ workflows:
 #    commands:
 #      - $DOCKER_HUB_TRIGGER
 
-test:
-  override:    
-    - mocha
+# This does not seem to work with newer CircleCI
+
+#test:
+#  override:    
+#    - mocha
