@@ -15,7 +15,7 @@ jobs:
             - run: npm test
             - run:
                 name: Trigger docker remotely
-                command: $DOCKER_HUB_TRIGGER # < EnvVar set in CircleCI
+                command: curl --data build=true -X POST https://hub.docker.com/api/build/v1/source/2b6c67d0-0be1-41b6-8952-d1e5c7cf59ee/trigger/96f10cbb-d052-481f-afc9-161e2972d250/call/
 workflows:
     build-and-test-and-deploy:
       jobs:
